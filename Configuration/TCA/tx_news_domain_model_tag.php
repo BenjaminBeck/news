@@ -10,6 +10,13 @@ return [
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
+
+        'languageField' => 'sys_language_uid',
+        'transOrigPointerField' => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'versioningWS' => true,
+        'origUid' => 't3_origuid',
+
         'dividers2tabs' => true,
         'default_sortby' => 'ORDER BY title',
         'delete' => 'deleted',
@@ -20,7 +27,7 @@ return [
         'searchFields' => 'uid,title',
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden,title'
+        'showRecordFieldList' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,title'
     ],
     'columns' => [
         'pid' => [
@@ -39,6 +46,44 @@ return [
             'label' => 'tstamp',
             'config' => [
                 'type' => 'passthrough',
+            ]
+        ],
+
+        'sys_language_uid' => [
+            'exclude' => 0,
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'special' => 'languages',
+                'items' => [
+                    [
+                        'LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages',
+                        -1,
+                        'flags-multiple'
+                    ],
+                ],
+                'default' => 0,
+            ]
+        ],
+        'l10n_parent' => [
+            'displayCond' => 'FIELD:sys_language_uid:>:0',
+            'exclude' => 1,
+            'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    ['', 0],
+                ],
+                'foreign_table' => 'tx_news_domain_model_tag',
+                'foreign_table_where' => 'AND tx_news_domain_model_tag.pid=###CURRENT_PID### AND tx_news_domain_model_tag.sys_language_uid IN (-1,0)',
+            ]
+        ],
+        'l10n_diffsource' => [
+            'config' => [
+                'type' => 'passthrough',
+                'default' => ''
             ]
         ],
         'hidden' => [
@@ -61,7 +106,7 @@ return [
     ],
     'types' => [
         0 => [
-            'showitem' => 'title, --palette--;;paletteCore'
+            'showitem' => 'sys_language_uid,l10n_parent,l10n_diffsource,hidden,title, --palette--;;paletteCore'
         ]
     ],
     'palettes' => [

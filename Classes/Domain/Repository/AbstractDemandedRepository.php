@@ -73,7 +73,9 @@ abstract class AbstractDemandedRepository
      */
     public function findDemanded(DemandInterface $demand, $respectEnableFields = true)
     {
+	    $respectEnableFields = false;
         $query = $this->generateQuery($demand, $respectEnableFields);
+
 
         return $query->execute();
     }
