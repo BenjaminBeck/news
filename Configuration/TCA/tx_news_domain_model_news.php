@@ -536,7 +536,7 @@ $tx_news_domain_model_news = [
         ],
         'tags' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
+            'l10n_mode' => 'noCopy', // OMG: https://forge.typo3.org/issues/62921
             'label' => $ll . 'tx_news_domain_model_news.tags',
             'config' => [
                 'type' => 'group',
